@@ -1,0 +1,81 @@
+# ===================================
+# FLUTTER
+# ===================================
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+.idea/
+.vscode/
+android/.gradle/
+android/local.properties
+ios/Flutter/
+macos/Flutter/
+linux/flutter/
+web/.dart_tool/
+**/GeneratedPluginRegistrant.*
+**/flutter_export_environment.sh
+
+# ===================================
+# SPRING BOOT (MAVEN / GRADLE)
+# ===================================
+target/
+build/
+.gradle/
+mvnw
+mvnw.cmd
+!gradle/wrapper/gradle-wrapper.jar
+**/out/
+**/.classpath
+**/.project
+**/.settings/
+**/.factorypath
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# ===================================
+# JSF / ECLIPSE
+# ===================================
+.classpath
+.project
+.settings/
+build/
+target/
+logs/
+tmp/
+lib/
+*.iml
+*.war
+*.ear
+*.bak
+*.tmp
+
+# ===================================
+# IDEs
+# ===================================
+.idea/
+.vscode/
+.metadata/
+*.iml
+bin/
+out/
+
+# ===================================
+# SISTEMA (WINDOWS / MAC)
+# ===================================
+Thumbs.db
+.DS_Store
+
+# ===================================
+# CONFIGURAÇÕES E VARIÁVEIS SENSÍVEIS
+# ===================================
+.env
+application.properties
+application.yml
+application-local.properties
+application-local.yml

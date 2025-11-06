@@ -49,11 +49,11 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (email == 'arthur@email.com' && senha == '43210') {
-                        print('acertou miseravi');
+                      if (email == 'teste@email.com' && senha == '12345') {
+                        print('LOGIN REALIZADO COM SUCESSO');
                         Navigator.of(context).pushReplacementNamed('/home');
                       } else {
-                        print('senha errada');
+                        print('ACESSO NEGADO');
                       }
                     },
                     child: Container(

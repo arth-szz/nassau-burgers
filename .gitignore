@@ -48,12 +48,17 @@ build/
 target/
 logs/
 tmp/
-lib/
 *.iml
 *.war
 *.ear
 *.bak
 *.tmp
+
+# Ignorar lib apenas do JSF
+/front-end-jsf/src/main/webapp/WEB-INF/lib/
+
+# Permitir lib do Flutter
+!frontend_flutter/lib/
 
 # ===================================
 # IDEs

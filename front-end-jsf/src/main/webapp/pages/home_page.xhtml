@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+		
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Nassau Burgers</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputScript library="js" name="script.js"/>
+</h:head>
+
+<h:body>
+    <h:panelGroup styleClass="app-bar">
+        <h:outputText value="Nassau Burgers" styleClass="app-title"/>
+    </h:panelGroup>
+    
+    <h:form>
+        <div class="section inicio">
+            <h2>O Sabor Real<br/>do Hambúrguer<br/>de Salvador</h2>
+            <p>Experimente o hambúrguer artesanal com ingredientes selecionados e toque nordestino</p>
+
+            <h:commandButton value="Fazer Pedido"
+                             action="#{homeBean.irPedido}"
+                             styleClass="btn-pedido"/>
+        </div>
+
+        <div class="section cardapio">
+            <h2>Cardápio</h2>
+            <div class="cardapio-list">
+                <ui:repeat value="#{homebean.hamburgueres}" var="h">
+                    <div class="card">
+                        <img src="#{h.imagePath}" alt="#{h.nome}" />
+                        <h3>#{h.nome}</h3>
+                        <p>#{h.preco}</p>
+                    </div>
+                </ui:repeat>
+            </div>
+        </div>
+        
+        <div class="section sobre">
+            <h2>Sobre nós</h2>
+            <p>
+                Na Nassau Burgers cada receita é feita à mão com ingredientes frescos e o verdadeiro sabor do Nordeste.
+                Nosso objetivo é proporcionar uma experiência gastronômica inesquecível - onde o simples vira extraordinário.
+            </p>
+        </div>
+
+        <div class="section contato">
+            <h2>Contato</h2>
+            <p>Rua dos Maçons, 123, Salvador, BA</p>
+            <p>(71) 91234-5678</p>
+        </div>
+    </h:form>
+
+    <div class="drawer">
+        <ul>
+            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+        </ul>
+    </div>
+</h:body>
+</html>

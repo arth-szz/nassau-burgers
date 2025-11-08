@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      
+<h:head>
+    <title>Acompanhamento - Nassau Burgers</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <h:panelGroup styleClass="app-bar">
+        <h:outputText value="Nassau Burgers" styleClass="app-title"/>
+    </h:panelGroup>
+
+    <div class="section acompanhamento">
+        <h2>Acompanhamento de Pedidos</h2>
+
+        <div class="lista-pedidos">
+            <ui:repeat value="#{acompanhamentoBean.pedidos}" var="p">
+                <div class="pedido-card">
+                    <div class="pedido-header">
+                        <span class="pedido-id">Pedido #{p.id}</span>
+                        <span class="pedido-status">Status: #{p.status}</span>
+                    </div>
+
+                    <div class="pedido-body">
+                        <div class="pedido-info">
+                            <p>Sabor: #{p.sabor}</p>
+                            <p>Quantidade: #{p.quantidade}</p>
+                            <p>Preço: #{p.preco}</p>
+                        </div>
+                        <div class="pedido-extras">
+                            <p>Extras:</p>
+                            <p>Bacon: #{p.bacon ? 'Sim' : 'Não'}</p>
+                            <p>Queijo: #{p.queijo ? 'Sim' : 'Não'}</p>
+                            <p>Molho: #{p.molho ? 'Sim' : 'Não'}</p>
+                        </div>
+                    </div>
+                </div>
+            </ui:repeat>
+        </div>
+    </div>
+
+    <div class="drawer">
+        <ul>
+            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+        </ul>
+    </div>
+</h:body>
+</html>

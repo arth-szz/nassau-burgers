@@ -1,0 +1,129 @@
+:root {
+  --nassau-gold: #FFD700;
+  --nassau-black: #111111;
+  --nassau-white: #FFFFFF;
+}
+
+/* ===== Layout geral ===== */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--nassau-black);
+  color: var(--nassau-white);
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== AppBar ===== */
+.app-bar {
+  background-color: var(--nassau-black);
+  padding: 16px;
+  text-align: center;
+}
+
+.app-title {
+  font-weight: bold;
+  font-size: 24px;
+  color: var(--nassau-gold);
+}
+
+/* ===== Seções ===== */
+.section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--nassau-white);
+  margin-bottom: 16px;
+}
+
+.section p {
+  font-size: 20px;
+  color: var(--nassau-white);
+  line-height: 1.4;
+}
+
+/* ===== HomePage: título principal ===== */
+.inicio h2 {
+  font-size: 40px;
+  font-weight: normal;
+  color: var(--nassau-white);
+  max-width: 400px;
+  margin: 0 auto 20px;
+}
+
+.inicio p {
+  max-width: 350px;
+  margin: 0 auto 20px;
+  font-size: 16px;
+  color: var(--nassau-white);
+}
+
+/* ===== Botões ===== */
+.btn-pedido {
+  background-color: transparent;
+  border: 1.5px solid var(--nassau-gold);
+  color: var(--nassau-gold);
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-pedido:hover {
+  background-color: var(--nassau-gold);
+  color: var(--nassau-black);
+}
+
+.btn-finalizar {
+  background-color: var(--nassau-gold);
+  color: var(--nassau-black);
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 300px; /* largura fixa como no Flutter */
+  margin: 20px auto;
+  display: block;
+}
+
+.btn-finalizar:hover {
+  background-color: #e6c200;
+}
+
+/* ===== Cardápio (HomePage) ===== */
+.cardapio-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 0 16px;
+}
+
+.card {
+  background: #222;
+  padding: 16px;
+  border-radius: 8px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.card img {
+  max-width: 150px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--nassau-white);
+}
+
+.card p {
+  font-size: 18px;
+  color: var(--nassau-gold);
+}

@@ -116,37 +116,37 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     children: const [
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Hambúrguer Real',
                         preco: 'R\$32,90',
                       ),
                       SizedBox(width: 20),
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Sertanejo Bacon',
                         preco: 'R\$34,90',
                       ),
                       SizedBox(width: 20),
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Dourado Supreme',
                         preco: 'R\$38,90',
                       ),
                       SizedBox(width: 20),
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Ministro Burguer',
                         preco: 'R\$49,99',
                       ),
                       SizedBox(width: 20),
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Mr. Obesidade',
                         preco: 'R\$100,10',
                       ),
                       SizedBox(width: 20),
                       HamburguerCard(
-                        imagePath: 'assets/images/hamburguer-transparente.png',
+                        imagePath: 'assets/images/hamburguer.png',
                         nome: 'Entope Artéria',
                         preco: 'R\$149,10',
                       ),

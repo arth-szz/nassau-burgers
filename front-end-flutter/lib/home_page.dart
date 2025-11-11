@@ -10,32 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _scrollController = ScrollController();
-
-  final GlobalKey _inicioKey = GlobalKey();
-  final GlobalKey _cardapioKey = GlobalKey();
-  final GlobalKey _sobreKey = GlobalKey();
-  final GlobalKey _contatoKey = GlobalKey();
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToSection(GlobalKey key) {
-    final keyContext = key.currentContext;
-    if (keyContext != null) {
-      Future.delayed(const Duration(milliseconds: 200)).then((_) {
-        Scrollable.ensureVisible(
-          keyContext,
-          duration: const Duration(seconds: 1),
-          curve: Curves.easeInOut,
-        );
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,7 +129,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 40),
                 Container(
-                  key: _sobreKey,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 24.0,
@@ -184,7 +157,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 40),
                 Container(
-                  key: _contatoKey,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 24.0,

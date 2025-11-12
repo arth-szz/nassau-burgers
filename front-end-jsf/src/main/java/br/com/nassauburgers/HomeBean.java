@@ -1,52 +1,62 @@
 package br.com.nassauburgers;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
 public class HomeBean implements Serializable {
 
-    private List<Hamburguer> hamburgueres;
+    private final List<Hamburguer> hamburgueres;
 
     public HomeBean() {
         hamburgueres = Arrays.asList(
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Hambúrguer Real", "R$32,90"),
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Sertanejo Bacon", "R$34,90"),
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Dourado Supreme", "R$38,90"),
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Ministro Burguer", "R$49,99"),
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Mr. Obesidade", "R$100,10"),
-            new Hamburguer("resources/images/hamburguer-transparente.png", "Entope Artéria", "R$149,10")
+            new Hamburguer("resources/images/", "Hambúrguer Real", "R$32,90"),
+            new Hamburguer("resources/images/", "Sertanejo Bacon", "R$34,90"),
+            new Hamburguer("resources/images/", "Dourado Supreme", "R$38,90"),
+            new Hamburguer("resources/images/", "Ministro Burguer", "R$49,99"),
+            new Hamburguer("resources/images/", "Mr. Obesidade", "R$100,10"),
+            new Hamburguer("resources/images/", "Entope Artéria", "R$149,10")
         );
     }
 
-    // Getter da lista
     public List<Hamburguer> getHamburgueres() {
         return hamburgueres;
     }
 
-    // Métodos de navegação
     public String irInicio() {
-        return "home_page?faces-redirect=true";
+        return "/pages/home_page.xhtml?faces-redirect=true";
     }
 
     public String irPedido() {
-        return "pedido_page?faces-redirect=true";
+        return "/pages/pedido_page.xhtml?faces-redirect=true";
     }
 
     public String irAcompanhamento() {
-        return "acompanhamento_page?faces-redirect=true";
+        return "/pages/acompanhamento_page.xhtml?faces-redirect=true";
     }
 
-    // Classe interna Hamburguer
+    public String irGerenciarPedidos() {
+        return "/pages/gerenciar_pedidos_page.xhtml?faces-redirect=true";
+    }
+
+    public String irGerenciarUsuarios() {
+        return "/pages/gerenciar_usuarios_page.xhtml?faces-redirect=true";
+    }
+
+    public String irLogin() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/pages/login_page.xhtml?faces-redirect=true";
+    }
+
     public static class Hamburguer {
-        private String imagePath;
-        private String nome;
-        private String preco;
+        private final String imagePath;
+        private final String nome;
+        private final String preco;
 
         public Hamburguer(String imagePath, String nome, String preco) {
             this.imagePath = imagePath;

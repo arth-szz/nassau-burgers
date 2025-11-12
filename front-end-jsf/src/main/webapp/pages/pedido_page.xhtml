@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+	<html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
@@ -39,8 +39,9 @@
         <h:outputLabel value="Adicionar molho especial" styleClass="checkbox-label"/><br/>
 
         <!-- Quantidade -->
-        <h:inputText value="#{pedidoBean.quantidade}" styleClass="input-quantidade"
-                     placeholder="Quantidade"/>
+        <h:inputText value="" styleClass="input-quantidade">
+    		<f:passThroughAttribute name="placeholder" value="Quantidade"/>
+		</h:inputText>
 
         <!-- Botão Finalizar -->
         <h:commandButton value="Finalizar compra"
@@ -50,11 +51,15 @@
 
     <!-- Drawer -->
     <div class="drawer">
-        <ul>
-            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
-            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
-            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
-        </ul>
+    	<h:form styleClass="">
+	        <ul>
+	            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+	            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+	            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+	            
+	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+	        </ul>
+    	</h:form>
     </div>
 </h:body>
 </html>

@@ -6,7 +6,7 @@
 		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
       
 <h:head>
-    <title>Acompanhamento - Nassau Burgers</title>
+    <title>Acompanhamento do Burgers</title>
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 
@@ -45,11 +45,15 @@
     </div>
 
     <div class="drawer">
-        <ul>
-            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
-            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
-            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
-        </ul>
+	    <h:form styleClass="">
+	        <ul>
+	            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+	            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+	            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+	            
+	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+	        </ul>
+        </h:form>
     </div>
 </h:body>
 </html>

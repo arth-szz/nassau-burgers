@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core">
-		
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Login</title>
-
-<style>
-html, body {
-      height: 100%;
-      margin: 0;
-    }
-
-#form1 {
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh; 
-}
-</style>
+    <title>Login</title>
+    <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
+
 <h:body>
-	<div id="form1">
-		<h:form>
-			<h:outputText value="LOGIN"/>
-			<br/><br/>
-			
-			<h:outputText value="Usuário"/>
-			<br></br>
-			<h:inputText id="idusuario" value="#{usuario.nome}"/>
-			<br/><br/>
-			
-			<h:outputText value="Senha"/>
-			<br></br>
-			<h:inputText id="idsenha" value="#{usuario.senha}"/>
-			<br/><br/>
-			
-			<h:commandButton id="idbotao" value="Cadastrar" action="#{usuario.acao}"/>
-		</h:form>
-	</div>
+    <h:form styleClass="login-form">
+        <div class="login-container">
+            <img src="#{request.contextPath}/resources/images/logo.png" alt="Logo" class="login-logo"/>
+
+            <h:inputText value="#{loginBean.email}" styleClass="login-input" required="true">
+                <f:passThroughAttribute name="placeholder" value="Digite seu email"/>
+            </h:inputText>
+
+            <h:inputSecret value="#{loginBean.senha}" styleClass="login-input" required="true">
+                <f:passThroughAttribute name="placeholder" value="Digite sua senha"/>
+            </h:inputSecret>
+
+            <h:commandLink value="Não possui uma conta? Faça Cadastro" action="#{loginBean.irCadastro}" immediate="true" styleClass="cadastro-link"/>
+
+            <h:commandButton value="Entrar" action="#{loginBean.autenticar}" styleClass="btn-finalizar"/>
+
+            <h:messages styleClass="login-messages"/>
+        </div>
+    </h:form>
 </h:body>
 </html>

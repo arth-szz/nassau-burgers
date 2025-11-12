@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Gerenciamento de Usuários</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <h:panelGroup styleClass="app-bar">
+        <h:outputText value="Nassau Burgers" styleClass="app-title"/>
+    </h:panelGroup>
+
+    <h:form styleClass="section">
+        <h2>Gerenciar Usuários (Tela de Admin)</h2>
+
+        <ui:repeat value="#{gerenciarUsuariosBean.usuarios}" var="u">
+            <div class="usuario-card">
+                <div class="usuario-header">
+                    <span class="usuario-nome">#{u.nome}</span>
+                    <div class="usuario-acoes">
+                        <h:commandButton value="✎ Editar"
+                                         action="#{gerenciarUsuariosBean.editar(u.id)}"
+                                         styleClass="btn-aprovar"/>
+                        <h:commandButton value="🗑 Excluir"
+                                         action="#{gerenciarUsuariosBean.excluir(u.id)}"
+                                         styleClass="btn-rejeitar"/>
+                    </div>
+                </div>
+            </div>
+        </ui:repeat>
+    </h:form>
+
+    <h:form styleClass="">
+        <ul>
+            <li><h:commandLink value="Início" action="#{homeBean.irInicio}" styleClass="nav-link"/></li>
+            <li><h:commandLink value="Fazer Pedido" action="#{homeBean.irPedido}" styleClass="nav-link"/></li>
+            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}" styleClass="nav-link"/></li>
+            <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}" styleClass="nav-link"/></li>
+            
+            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+        </ul>
+    </h:form>
+</h:body>
+</html>

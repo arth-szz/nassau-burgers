@@ -20,10 +20,7 @@ class HamburguerCard extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: nassauBlack,
-        border: Border.all(
-          color: nassauGold,
-          width: 1.5,
-        ),
+        border: Border.all(color: nassauGold, width: 1.5),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Column(

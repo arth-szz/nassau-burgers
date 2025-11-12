@@ -18,17 +18,15 @@ class _HomePageState extends State<HomePage> {
           "Nassau Burgers",
           style: TextStyle(fontWeight: FontWeight.bold, color: nassauGold),
         ),
-        iconTheme: IconThemeData(
-          color: nassauGold,
-        ),
+        iconTheme: IconThemeData(color: nassauGold),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                SizedBox(height: 40,),
+                SizedBox(height: 40),
                 SizedBox(
                   width: 400,
                   child: const Text(
@@ -67,20 +65,18 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 40,),
-                Container(
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.0,
-                      vertical: 16.0,
-                    ),
-                    child: Text(
-                      'Cardápio',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                SizedBox(height: 40),
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 16.0,
+                  ),
+                  child: Text(
+                    'Cardápio',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -128,19 +124,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 40),
-                Container(
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.0,
-                      vertical: 10.0,
-                    ),
-                    child: Text(
-                      'Sobre nós',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    'Sobre nós',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -156,19 +150,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 40),
-                Container(
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.0,
-                      vertical: 10.0,
-                    ),
-                    child: Text(
-                      'Contato',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    'Contato',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -198,9 +190,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
+        child: Column(
+          children: [
             Container(
               height: 100.0,
               padding: EdgeInsets.only(top: 20.0),
@@ -212,23 +203,72 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.home, color: nassauGold),
-              title: Text('Início'),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.home, color: nassauGold),
+                    title: Text('Início'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.add_shopping_cart, color: nassauGold),
+                    title: Text('Fazer pedido'),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/pedido');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.article, color: nassauGold),
+                    title: Text('Acompanhamento'),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/acompanhamento');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.add_moderator, color: nassauGold),
+                    title: Text(
+                      'Gerenciar Pedidos',
+                      style: TextStyle(color: nassauGold),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/gerenciar-pedidos');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.admin_panel_settings, color: nassauGold),
+                    title: Text(
+                      'Gerenciar Usuários',
+                      style: TextStyle(color: nassauGold),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/gerenciar-usuarios');
+                    },
+                  ),
+                ],
+              ),
             ),
-            ListTile(
-              leading: Icon(Icons.add_shopping_cart, color: nassauGold),
-              title: Text('Fazer pedido'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/pedido');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.article, color: nassauGold),
-              title: Text('Acompanhamento'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/acompanhamento');
-              },
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.logout, color: nassauGold),
+                  label: const Text('Sair', style: TextStyle(color: nassauGold)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: nassauBlack,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, '/');
+                  },
+                ),
+              ),
             ),
           ],
         ),

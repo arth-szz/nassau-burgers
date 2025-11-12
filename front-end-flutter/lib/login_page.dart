@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassau_burgers/constantes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,8 +9,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String email = '';
-  String senha = '';
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
+  bool _visibilidade = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _senhaController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,37 +37,67 @@ class _LoginPageState extends State<LoginPage> {
                     height: 250,
                     child: Image.asset('assets/images/logo.png'),
                   ),
-                  const SizedBox(height: 30),
-                  TextField(
-                    onChanged: (text) => email = text,
-                    keyboardType: TextInputType.emailAddress,
+                  TextFormField(
+                    controller: _emailController,
                     decoration: const InputDecoration(
                       labelText: 'Email',
+                      hintText: 'Digite seu email',
                       border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 28),
+                  TextFormField(
+                    controller: _senhaController,
+                    obscureText: _visibilidade,
+                    obscuringCharacter: '*',
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      hintText: 'Digite sua senha',
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _visibilidade
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _visibilidade = !_visibilidade;
+                          });
+                        },
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    onChanged: (text) => senha = text,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
+                  TextButton(
+                    onPressed: () =>
+                        Navigator.of(context).pushReplacementNamed('/cadastro'),
+                    child: Text(
+                      'Não possui uma conta? Faça Cadastro',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(color: nassauGold),
                     ),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (email == 'teste@email.com' && senha == '12345') {
+                      if (_emailController.text == 'teste@email.com' &&
+                          _senhaController.text == '12345') {
                         print('LOGIN REALIZADO COM SUCESSO');
                         Navigator.of(context).pushReplacementNamed('/home');
                       } else {
                         print('ACESSO NEGADO');
                       }
                     },
-                    child: Container(
-                        width: double.infinity,
-                        child: Text('Entrar', textAlign: TextAlign.center,)
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Entrar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: nassauGold),
+                      ),
                     ),
                   ),
                 ],

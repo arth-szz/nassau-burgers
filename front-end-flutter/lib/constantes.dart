@@ -4,7 +4,6 @@ const Color nassauGold = Color(0xFFF7B900);
 const Color nassauBlack = Color(0xFF121212);
 const Color nassauWhite = Colors.white;
 
-
 const TextStyle styleNomeHamburguer = TextStyle(
   color: nassauWhite,
   fontWeight: FontWeight.bold,

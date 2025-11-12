@@ -20,7 +20,9 @@
         <h2>O Sabor Real<br/>do Hambúrguer<br/>de Salvador</h2>
         <p>Experimente o hambúrguer artesanal com ingredientes selecionados e toque nordestino</p>
 
-        <h:commandButton value="Fazer Pedido" action="#{homeBean.irPedido}" styleClass="btn-pedido"/>
+        <h:commandButton value="Fazer Pedido"
+                         action="#{homeBean.irPedido}"
+                         styleClass="btn-pedido"/>
     </div>
 
     <div class="section cardapio">
@@ -51,15 +53,11 @@
     </div>
 
     <div class="drawer">
-    	<h:form styleClass="">
-	        <ul>
-	            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
-	            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
-	            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
-	            
-	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
-	        </ul>
-        </h:form>
+        <ul>
+            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+        </ul>
     </div>
 </h:body>
 </html>

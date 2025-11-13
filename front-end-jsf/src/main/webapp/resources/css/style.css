@@ -1,129 +1,543 @@
+/* --- 1. CONFIGURAÇÕES GLOBAIS E FONTES --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
 :root {
-  --nassau-gold: #FFD700;
-  --nassau-black: #111111;
-  --nassau-white: #FFFFFF;
+    --cor-fundo-primaria: #121212;
+    --cor-fundo-secundaria: #1E1E1E;
+    --cor-texto-primaria: #F5F5F5;
+    --cor-texto-secundaria: #AAAAAA;
+    --cor-acento: #FBC02D;
+    --cor-borda: #333333;
+    --cor-perigo: #e74c3c;
+    --largura-drawer: 260px;
 }
 
-/* ===== Layout geral ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--nassau-black);
-  color: var(--nassau-white);
-  margin: 0;
-  padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--cor-fundo-primaria);
+    color: var(--cor-texto-primaria);
+    font-size: 16px;
 }
 
-/* ===== AppBar ===== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--cor-texto-secundaria);
+}
+
+a {
+    color: var(--cor-acento);
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- 2. LAYOUT PRINCIPAL (COM E SEM DRAWER) - ATUALIZADO --- */
+
+/* O .drawer de navegação (Baseado nas imagens ...014432.png e ...021600.png) */
+.drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--largura-drawer);
+    height: 100vh;
+    background-color: var(--cor-fundo-secundaria);
+    padding: 2rem;
+    z-index: 100;
+    border-right: 1px solid var(--cor-borda);
+    
+    /* Layout interno do drawer */
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer h:form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* --- MUDANÇAS PRINCIPAIS AQUI --- */
+.drawer ul {
+    list-style-type: none;
+    flex-grow: 1; /* Faz o <ul> preencher o espaço */
+    
+    /* Adiciona flex para controlar os itens internos (<li> e o <button>) */
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer li {
+    margin-bottom: 1.5rem;
+}
+
+.drawer a {
+    color: var(--cor-acento);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.drawer a:hover {
+    color: var(--cor-texto-primaria);
+}
+
+/* Botão 'Sair' dentro do drawer (Estilo Elegante) */
+/* E SUBSTITUA POR ISTO: */
+/* ENCONTRE ISTO: */
+.drawer h:commandButton {
+    background: var(--cor-borda);
+    color: var(--cor-texto-primaria);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    margin-top: auto; 
+    transition: background-color 0.2s ease;
+}
+
+.drawer h:commandButton:hover {
+    background: #444;
+}
+
+/* Ajusta o layout de TODA a página quando o .drawer existir */
+body:has(.drawer) {
+    padding-left: var(--largura-drawer);
+}
+
+/* Barra de App (Usada em várias páginas) */
 .app-bar {
-  background-color: var(--nassau-black);
-  padding: 16px;
-  text-align: center;
+    padding: 1.5rem 2rem;
+    background-color: var(--cor-fundo-primaria);
 }
 
-.app-title {
-  font-weight: bold;
-  font-size: 24px;
-  color: var(--nassau-gold);
+/* Esconde a .app-bar SE a página tiver um .drawer */
+body:has(.drawer) > .app-bar {
+    display: none;
 }
 
-/* ===== Seções ===== */
+/* Seções de Conteúdo */
 .section {
-  padding: 40px 20px;
-  text-align: center;
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto; 
 }
 
-.section h2 {
-  font-size: 32px;
-  font-weight: bold;
-  color: var(--nassau-white);
-  margin-bottom: 16px;
+/* --- 3. TELAS DE LOGIN E CADASTRO (...015052.png) --- */
+
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
 }
 
-.section p {
-  font-size: 20px;
-  color: var(--nassau-white);
-  line-height: 1.4;
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
 }
 
-/* ===== HomePage: título principal ===== */
-.inicio h2 {
-  font-size: 40px;
-  font-weight: normal;
-  color: var(--nassau-white);
-  max-width: 400px;
-  margin: 0 auto 20px;
+.login-logo {
+    width: 350px;
+    margin-bottom: 2.5rem;
 }
 
-.inicio p {
-  max-width: 350px;
-  margin: 0 auto 20px;
-  font-size: 16px;
-  color: var(--nassau-white);
+.login-input {
+    width: 100%;
+    padding: 1.25rem 1.5rem; /* Mais padding para combinar com a imagem */
+    margin-bottom: 1.5rem;
+    background-color: var(--cor-fundo-secundaria);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-primaria);
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* ===== Botões ===== */
-.btn-pedido {
-  background-color: transparent;
-  border: 1.5px solid var(--nassau-gold);
-  color: var(--nassau-gold);
-  padding: 16px 32px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+.login-input::placeholder {
+    color: var(--cor-texto-secundaria);
 }
 
-.btn-pedido:hover {
-  background-color: var(--nassau-gold);
-  color: var(--nassau-black);
+.cadastro-link {
+    display: block;
+    margin-bottom: 1.5rem;
+    color: var(--cor-acento);
+    font-size: 0.9rem;
+    white-space: pre-line; /* Para a quebra de linha funcionar */
+    line-height: 1.5;
 }
 
+.login-messages {
+    margin-top: 1rem;
+    color: var(--cor-perigo);
+    font-size: 0.9rem;
+}
+
+/* --- 4. BOTÕES (CONFLITO RESOLVIDO) --- */
+
+/* Estilo padrão (Amarelo, usado em Pedido, ...014406.png) */
 .btn-finalizar {
-  background-color: var(--nassau-gold);
-  color: var(--nassau-black);
-  padding: 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-  width: 300px; /* largura fixa como no Flutter */
-  margin: 20px auto;
-  display: block;
+    background-color: var(--cor-acento);
+    color: var(--cor-fundo-primaria);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    transition: background-color 0.2s ease;
 }
 
 .btn-finalizar:hover {
-  background-color: #e6c200;
+    background-color: #e0a828;
 }
 
-/* ===== Cardápio (HomePage) ===== */
+/* Estilo do Login/Cadastro (Escuro, ...015052.png) */
+/* Sobrescreve o .btn-finalizar SE ele estiver dentro de .login-form */
+.login-form .btn-finalizar {
+    background-color: var(--cor-fundo-secundaria);
+    color: var(--cor-acento);
+    border: 1px solid var(--cor-borda);
+    font-weight: 500;
+    text-transform: none; /* Imagem não mostra uppercase */
+    letter-spacing: normal;
+}
+
+.login-form .btn-finalizar:hover {
+    background-color: #2c2c2c;
+}
+
+/* --- 5. HOME PAGE (...014347.png) --- */
+
+.section.inicio {
+    text-align: center;
+    padding: 6rem 2rem;
+}
+
+.section.inicio h2 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.section.inicio p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.btn-pedido {
+    background: transparent;
+    border: 2px solid var(--cor-acento);
+    color: var(--cor-acento);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-pedido:hover {
+    background: var(--cor-acento);
+    color: var(--cor-fundo-primaria);
+}
+
+/* Cardápio */
 .cardapio-list {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
 }
 
 .card {
-  background: #222;
-  padding: 16px;
-  border-radius: 8px;
-  min-width: 200px;
-  text-align: center;
+    background: var(--cor-fundo-secundaria);
+    border: 1px solid var(--cor-acento);
+    border-radius: 8px;
+    text-align: center;
+    padding: 1.5rem;
+    overflow: hidden;
 }
 
 .card img {
-  max-width: 150px;
-  margin-bottom: 12px;
+    width: 100%;
+    max-width: 200px; /* Evita que a imagem fique gigante */
+    height: auto;
+    margin-bottom: 1rem;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
 }
 
 .card h3 {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--nassau-white);
+    font-size: 1.25rem;
+    color: var(--cor-texto-primaria);
+    margin-bottom: 0.5rem;
 }
 
 .card p {
-  font-size: 18px;
-  color: var(--nassau-gold);
+    font-size: 1.1rem;
+    color: var(--cor-acento);
+    font-weight: 700;
+    margin: 0;
+}
+
+.section.sobre, .section.contato {
+    text-align: center;
+    max-width: 800px;
+}
+
+/* --- 6. PÁGINA DE PEDIDO (ATUALIZADO) --- */
+
+/* O formulário .section já é centralizado pelas regras globais 
+   e pela regra max-width: 600px abaixo */
+/* E SUBSTITUA POR ISTO: */
+form.section {
+    max-width: 600px;
+    text-align: center;
+}
+
+.section h:panelGrid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+/* Estilo para .select (igual ao .login-input) */
+.select {
+    background-color: var(--cor-fundo-secundaria);
+    color: var(--cor-texto-primaria);
+    border: 1px solid var(--cor-borda);
+    padding: 1.25rem 1.5rem; /* Padding do login */
+    font-size: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    appearance: none;
+}
+
+.preco {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cor-acento);
+    text-align: right;
+}
+
+/* Checkboxes (estilo escuro e sutil da imagem) */
+.section h:selectBooleanCheckbox {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--cor-fundo-secundaria); /* Fundo escuro */
+    border: 1px solid var(--cor-borda); /* Borda sutil */
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+    margin-right: 0.75rem;
+}
+
+.section h:selectBooleanCheckbox:checked {
+    background-color: var(--cor-acento); /* Fica amarelo ao marcar */
+}
+
+/* "Check" (V) do checkbox */
+.section h:selectBooleanCheckbox:checked::after {
+    content: '✔';
+    color: var(--cor-fundo-primaria);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.checkbox-label {
+    font-size: 1.1rem;
+    vertical-align: middle;
+    color: var(--cor-texto-primaria);
+}
+
+/* Diminui o espaçamento extra do <br> para empilhar os itens */
+.checkbox-label + br {
+    display: block;
+    content: "";
+    margin-bottom: 0.5rem; /* Apenas um pequeno espaço */
+}
+
+/* Estilo para .input-quantidade (igual ao .login-input) */
+.input-quantidade {
+    width: 100%;
+    padding: 1.25rem 1.5rem; /* Padding do login */
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--cor-fundo-secundaria);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-primaria);
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.input-quantidade::placeholder {
+    color: var(--cor-texto-secundaria);
+}
+
+/* O botão .btn-finalizar já está correto (amarelo) */
+
+/* --- 7. PÁGINAS DE ADMIN E ACOMPANHAMENTO --- */
+
+.pedido-card, .usuario-card {
+    background-color: var(--cor-fundo-secundaria);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.pedido-header, .usuario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pedido-id, .usuario-nome {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cor-texto-primaria);
+}
+
+.pedido-status {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cor-acento);
+    margin-left: 1rem;
+}
+
+/* Botões de Ação do Admin */
+.btn-aprovar, .btn-rejeitar {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+    transition: opacity 0.2s ease;
+}
+
+.btn-aprovar:hover, .btn-rejeitar:hover {
+    opacity: 0.8;
+}
+
+.btn-aprovar {
+    background-color: var(--cor-acento);
+    color: var(--cor-fundo-primaria);
+}
+
+.btn-rejeitar {
+    background-color: var(--cor-perigo);
+    color: var(--cor-texto-primaria);
+}
+
+/* Detalhes (Acompanhamento) */
+.pedido-body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cor-borda);
+}
+
+.pedido-info, .pedido-extras {
+    flex-basis: 48%;
+    min-width: 200px;
+}
+
+.pedido-body p {
+    margin-bottom: 0.5rem;
+    color: var(--cor-texto-secundaria);
+}
+
+.pedido-extras p:first-child {
+    color: var(--cor-texto-primaria);
+    font-weight: 700;
+}
+
+/* Página "Editar Usuário" */
+.btn-voltar {
+    background: none;
+    border: none;
+    color: var(--cor-acento);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 1.5rem;
+}
+
+/* Navegação no rodapé (Páginas de Admin) */
+/* Seleciona forms no body que NÃO são .login-form e NÃO estão no .drawer */
+body > h:form[styleClass=""] {
+    padding: 2rem;
+    border-top: 1px solid var(--cor-borda);
+    margin-top: 2rem;
+}
+
+body > h:form[styleClass=""] ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+body > h:form[styleClass=""] a,
+body > h:form[styleClass=""] .nav-link {
+    color: var(--cor-acento);
+    font-weight: 500;
+}
+
+body > h:form[styleClass=""] h:commandButton {
+    background: none;
+    border: 1px solid var(--cor-perigo);
+    color: var(--cor-perigo);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }

@@ -10,6 +10,19 @@
 </h:head>
 
 <h:body>
+<div class="drawer">
+    	<h:form styleClass="">
+	        <ul>
+	            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
+	            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
+	            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+	            <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}"/></li>
+	            <li><h:commandLink value="Gerenciar Usuários" action="#{homeBean.irGerenciarUsuarios}"/></li>
+	            
+	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+	        </ul>
+        </h:form>
+    </div>
     <h:panelGroup styleClass="app-bar">
         <h:outputText value="Nassau Burgers" styleClass="app-title"/>
     </h:panelGroup>
@@ -32,17 +45,6 @@
                 </div>
             </div>
         </ui:repeat>
-    </h:form>
-
-    <h:form styleClass="">
-        <ul>
-            <li><h:commandLink value="Início" action="#{homeBean.irInicio}" styleClass="nav-link"/></li>
-            <li><h:commandLink value="Fazer Pedido" action="#{homeBean.irPedido}" styleClass="nav-link"/></li>
-            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}" styleClass="nav-link"/></li>
-            <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}" styleClass="nav-link"/></li>
-            
-            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
-        </ul>
     </h:form>
 </h:body>
 </html>

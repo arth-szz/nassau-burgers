@@ -28,7 +28,7 @@
         <div class="cardapio-list">
             <ui:repeat value="#{homeBean.hamburgueres}" var="h">
                 <div class="card">
-                    <img src="#{h.imagePath}" alt="#{h.nome}" />
+                    <img src="#{request.contextPath}/resources/images/hamburguer.png" alt="#{h.nome}" />
                     <h3>#{h.nome}</h3>
                     <p>#{h.preco}</p>
                 </div>
@@ -56,6 +56,9 @@
 	            <li><h:commandLink value="Início" action="#{homeBean.irInicio}"/></li>
 	            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}"/></li>
 	            <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}"/></li>
+	            
+	            <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}"/></li>
+	            <li><h:commandLink value="Gerenciar Usuários" action="#{homeBean.irGerenciarUsuarios}"/></li>
 	            
 	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
 	        </ul>

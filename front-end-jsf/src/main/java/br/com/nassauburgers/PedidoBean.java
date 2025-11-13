@@ -23,12 +23,12 @@ public class PedidoBean implements Serializable {
 
     public String getPrecoSelecionado() {
         if ("Hambúrguer Real".equals(hamburguerSelecionado)) return "R$32,90";
-        if ("Sertanejo Bacon".equals(hamburguerSelecionado)) return "R$34,90";
-        if ("Dourado Supreme".equals(hamburguerSelecionado)) return "R$38,90";
-        if ("Ministro Burguer".equals(hamburguerSelecionado)) return "R$49,99";
-        if ("Mr. Obesidade".equals(hamburguerSelecionado)) return "R$100,10";
-        if ("Entope Artéria".equals(hamburguerSelecionado)) return "R$149,10";
-        return "R$--,--";
+        else if ("Sertanejo Bacon".equals(hamburguerSelecionado)) return "R$34,90";
+        else if ("Dourado Supreme".equals(hamburguerSelecionado)) return "R$38,90";
+        else if ("Ministro Burguer".equals(hamburguerSelecionado)) return "R$49,99";
+        else if ("Mr. Obesidade".equals(hamburguerSelecionado)) return "R$100,10";
+        else if ("Entope Artéria".equals(hamburguerSelecionado)) return "R$149,10";
+        else return "R$--,--";
     }
 
     public String finalizarCompra() {

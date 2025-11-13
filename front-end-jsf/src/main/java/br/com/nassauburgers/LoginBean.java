@@ -17,7 +17,7 @@ public class LoginBean implements Serializable {
         if ("teste@email.com".equals(email) && "12345".equals(senha)) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Login realizado", "Bem-vindo!"));
-            return "home?faces-redirect=true";
+            return "/pages/home_page?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acesso negado", "Email ou senha inválidos"));

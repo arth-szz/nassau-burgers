@@ -37,16 +37,18 @@
         <h:messages styleClass="login-messages"/>
     </h:form>
 
+<div class="drawer">
     <h:form styleClass="">
         <ul>
             <li><h:commandLink value="Início" action="#{homeBean.irInicio}" styleClass="nav-link"/></li>
-            <li><h:commandLink value="Fazer Pedido" action="#{homeBean.irPedido}" styleClass="nav-link"/></li>
+            <li><h:commandLink value="Fazer pedido" action="#{homeBean.irPedido}" styleClass="nav-link"/></li>
             <li><h:commandLink value="Acompanhamento" action="#{homeBean.irAcompanhamento}" styleClass="nav-link"/></li>
             <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}" styleClass="nav-link"/></li>
             <li><h:commandLink value="Gerenciar Usuários" action="#{homeBean.irGerenciarUsuarios}" styleClass="nav-link"/></li>
             
-            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass="btn-finalizar"/>
         </ul>
     </h:form>
+    </div>
 </h:body>
 </html>

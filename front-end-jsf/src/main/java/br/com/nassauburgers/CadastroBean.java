@@ -20,7 +20,7 @@ public class CadastroBean implements Serializable {
             senha != null && !senha.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastro realizado", "Seja bem-vindo!"));
-            return "home?faces-redirect=true";
+            return "/pages/login_page.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Preencha todos os campos"));

@@ -20,7 +20,7 @@
 	            <li><h:commandLink value="Gerenciar Pedidos" action="#{homeBean.irGerenciarPedidos}"/></li>
 	            <li><h:commandLink value="Gerenciar Usuários" action="#{homeBean.irGerenciarUsuarios}"/></li>
 	            
-	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass=""/>
+	            <h:commandButton value="Sair" action="#{homeBean.irLogin}" styleClass="btn-finalizar"/>
 	        </ul>
         </h:form>
     </div>
@@ -36,12 +36,8 @@
                 <div class="pedido-header">
                     <span class="pedido-id">Pedido #{p.id} - #{p.status}</span>
                     <div class="pedido-acoes">
-                        <h:commandButton value="✔"
-                                         action="#{gerenciarPedidosBean.aprovar(p.id)}"
-                                         styleClass="btn-aprovar"/>
-                        <h:commandButton value="✖"
-                                         action="#{gerenciarPedidosBean.rejeitar(p.id)}"
-                                         styleClass="btn-rejeitar"/>
+                        <h:commandButton value="✔" action="#{gerenciarPedidosBean.aprovar(p.id)}" styleClass="btn-aprovar"/>
+                        <h:commandButton value="✖" action="#{gerenciarPedidosBean.rejeitar(p.id)}" styleClass="btn-rejeitar"/>
                     </div>
                 </div>
             </div>

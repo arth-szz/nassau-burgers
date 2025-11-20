@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.8</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.uninassau.back-end-springboot</groupId>
+	<groupId>br.com.uninassau</groupId>
 	<artifactId>back-end-springboot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>back-end-springboot</name>
-	<description>Demo project for Spring Boot</description>
+	<description>API para sistema web de hamburgueria, projeto acadêmico</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -44,8 +44,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

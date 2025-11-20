@@ -1,4 +1,4 @@
-package com.uninassau.back_end_springboot.back_end_springboot;
+package br.com.uninassau.back_end_springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

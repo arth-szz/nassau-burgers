@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassau_burgers/constantes.dart';
+import 'package:nassau_burgers/service/usuario_service.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -12,13 +13,51 @@ class _CadastroPageState extends State<CadastroPage> {
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
-  bool _visibilidade = true;
+  final UsuarioService _service = UsuarioService();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _senhaController.dispose();
-    super.dispose();
+  bool _visibilidade = true;
+  bool _isLoading = false;
+
+  Future<void> _fazerCadastro() async {
+    if (_nomeController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _senhaController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Preencha todos os campos")));
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _service.cadastrar(
+        _nomeController.text.trim(),
+        _emailController.text.trim(),
+        _senhaController.text.trim(),
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Cadastro realizado! Faça login."),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.of(context).pushReplacementNamed('/');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Erro: ${e.toString()}"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -32,7 +71,7 @@ class _CadastroPageState extends State<CadastroPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 60),
+                  const SizedBox(height: 60),
                   SizedBox(
                     width: 250,
                     height: 250,
@@ -42,18 +81,15 @@ class _CadastroPageState extends State<CadastroPage> {
                     controller: _nomeController,
                     decoration: const InputDecoration(
                       labelText: 'Nome',
-                      hintText: 'Digite seu nome',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.person),
                     ),
-                    keyboardType: TextInputType.name,
                   ),
                   const SizedBox(height: 28),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
                       labelText: 'Email',
-                      hintText: 'Digite seu email',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.email),
                     ),
@@ -63,10 +99,8 @@ class _CadastroPageState extends State<CadastroPage> {
                   TextFormField(
                     controller: _senhaController,
                     obscureText: _visibilidade,
-                    obscuringCharacter: '*',
                     decoration: InputDecoration(
                       labelText: 'Senha',
-                      hintText: 'Digite sua senha',
                       border: const OutlineInputBorder(),
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
@@ -75,11 +109,8 @@ class _CadastroPageState extends State<CadastroPage> {
                               ? Icons.visibility_off
                               : Icons.visibility,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _visibilidade = !_visibilidade;
-                          });
-                        },
+                        onPressed: () =>
+                            setState(() => _visibilidade = !_visibilidade),
                       ),
                     ),
                   ),
@@ -88,24 +119,23 @@ class _CadastroPageState extends State<CadastroPage> {
                         Navigator.of(context).pushReplacementNamed('/'),
                     child: Text(
                       'Já possui uma conta? Faça login',
-                      textAlign: TextAlign.start,
                       style: TextStyle(color: nassauGold),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      /* */
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        'Cadastrar',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: nassauGold),
-                      ),
-                    ),
-                  ),
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: _fazerCadastro,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              'Cadastrar',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: nassauGold),
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),

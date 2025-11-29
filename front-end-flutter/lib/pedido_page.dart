@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nassau_burgers/constantes.dart';
+import 'package:nassau_burgers/custom_drawer.dart';
+import 'package:nassau_burgers/model/hamburguer_model.dart';
+import 'package:nassau_burgers/service/hamburguer_service.dart';
+import 'package:nassau_burgers/service/pedido_service.dart';
 
 class PedidoPage extends StatefulWidget {
   const PedidoPage({super.key});
@@ -9,275 +13,278 @@ class PedidoPage extends StatefulWidget {
 }
 
 class _PedidoPageState extends State<PedidoPage> {
-  String? hamburguerSelecionado;
+  // Serviços
+  final HamburguerService _hamburguerService = HamburguerService();
+  final PedidoService _pedidoService = PedidoService();
+
+  // Estado
+  List<Hamburguer> _listaHamburgueres = [];
+  Hamburguer? _hamburguerSelecionado;
+
   bool adicionarBacon = false;
   bool adicionarQueijo = false;
   bool adicionarMolho = false;
+  bool _isLoading = false;
 
-  final _quantidade = TextEditingController();
+  final _quantidadeController = TextEditingController();
 
-  Widget preco(String? hamburguerSelecionado) {
-    if (hamburguerSelecionado == 'HambúrguerReal') {
-      return const Text('R\$32,90');
-    } else if (hamburguerSelecionado == 'Sertanejo Bacon') {
-      return const Text('R\$34,90');
-    } else if (hamburguerSelecionado == 'Dourado Supreme') {
-      return const Text('R\$38,90');
-    } else if (hamburguerSelecionado == 'Ministro Burguer') {
-      return const Text('R\$49,99');
-    } else if (hamburguerSelecionado == 'Mr. Obesidade') {
-      return const Text('R\$100,10');
-    } else if (hamburguerSelecionado == 'Entope Artéria') {
-      return const Text('R\$149,10');
-    } else {
-      return const Text('R\$--,--');
+  @override
+  void initState() {
+    super.initState();
+    _carregarCardapio();
+  }
+
+  Future<void> _carregarCardapio() async {
+    try {
+      final lista = await _hamburguerService.getHamburgueres();
+      setState(() {
+        _listaHamburgueres = lista;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao carregar cardápio: $e")),
+      );
+    }
+  }
+
+  Future<void> _finalizarCompra() async {
+    if (_hamburguerSelecionado == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Selecione um hambúrguer!")));
+      return;
+    }
+    if (_quantidadeController.text.isEmpty ||
+        int.tryParse(_quantidadeController.text) == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Informe uma quantidade válida!")));
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _pedidoService.realizarPedido(
+        hamburguerId: _hamburguerSelecionado!.id,
+        quantidade: int.parse(_quantidadeController.text),
+        bacon: adicionarBacon,
+        queijo: adicionarQueijo,
+        molho: adicionarMolho,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Pedido realizado com sucesso!"),
+              backgroundColor: Colors.green),
+        );
+        Navigator.pushReplacementNamed(context, '/acompanhamento');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erro: $e"), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   @override
   void dispose() {
-    _quantidade.dispose();
+    _quantidadeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212), // Fundo Dark
       appBar: AppBar(
+        backgroundColor: nassauBlack,
         title: const Text(
           "Nassau Burgers",
           style: TextStyle(fontWeight: FontWeight.bold, color: nassauGold),
         ),
-        iconTheme: IconThemeData(color: nassauGold),
+        iconTheme: const IconThemeData(color: nassauGold),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 40),
-                  SizedBox(
-                    width: 400,
-                    child: const Text(
-                      'Faça seu Pedido',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 40),
-                    ),
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Faça seu Pedido',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 36,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Monte o hambúrguer do seu jeito',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                const SizedBox(height: 40),
+
+                // --- SEÇÃO DO DROPDOWN ---
+                _listaHamburgueres.isEmpty
+                    ? const Center(
+                    child: CircularProgressIndicator(color: nassauGold))
+                    : Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: nassauGold, width: 1),
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFF1E1E1E), // Fundo do input
                   ),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DropdownButton<String>(
-                        value: hamburguerSelecionado,
-                        hint: const Text('Escolha seu hambúrguer'),
-                        items:
-                            [
-                              'HambúrguerReal',
-                              'Sertanejo Bacon',
-                              'Dourado Supreme',
-                              'Ministro Burguer',
-                              'Mr. Obesidade',
-                              'Entope Artéria',
-                            ].map((String valor) {
-                              return DropdownMenuItem<String>(
-                                value: valor,
-                                child: Text(valor),
-                              );
-                            }).toList(),
-                        onChanged: (String? novoValor) {
-                          setState(() {
-                            hamburguerSelecionado = novoValor!;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 20),
-                      preco(hamburguerSelecionado),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                  SizedBox(
-                    width: 300,
-                    child: CheckboxListTile(
-                      title: Text(
-                        'Adicionar bacon',
-                        style: TextStyle(color: nassauWhite),
-                      ),
-                      activeColor: nassauGold,
-                      // cor dourada
-                      checkColor: nassauBlack,
-                      value: adicionarBacon,
-                      onChanged: (bool? valor) {
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Hamburguer>(
+                      value: _hamburguerSelecionado,
+                      hint: const Text('Escolha seu hambúrguer',
+                          style: TextStyle(color: Colors.grey)),
+                      dropdownColor: const Color(0xFF1E1E1E),
+                      // Cor do menu aberto
+                      icon: const Icon(
+                          Icons.arrow_drop_down, color: nassauGold),
+                      isExpanded: true,
+                      items: _listaHamburgueres.map((Hamburguer item) {
+                        return DropdownMenuItem<Hamburguer>(
+                          value: item,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(item.nome,
+                                  style: const TextStyle(color: Colors.white)),
+                              Text(
+                                "R\$ ${item.preco.toStringAsFixed(2)}",
+                                style: const TextStyle(color: nassauGold,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (Hamburguer? novoValor) {
                         setState(() {
-                          adicionarBacon = valor!;
+                          _hamburguerSelecionado = novoValor;
                         });
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 300,
-                    child: CheckboxListTile(
-                      title: Text(
-                        'Adicionar queijo extra',
-                        style: TextStyle(color: nassauWhite),
-                      ),
-                      activeColor: nassauGold,
-                      checkColor: nassauBlack,
-                      value: adicionarQueijo,
-                      onChanged: (bool? valor) {
-                        setState(() {
-                          adicionarQueijo = valor!;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 300,
-                    child: CheckboxListTile(
-                      title: Text(
-                        'Adicionar molho especial',
-                        style: TextStyle(color: nassauWhite),
-                      ),
-                      activeColor: nassauGold,
-                      checkColor: nassauBlack,
-                      value: adicionarMolho,
-                      onChanged: (bool? valor) {
-                        setState(() {
-                          adicionarMolho = valor!;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  SizedBox(
-                    width: 300,
-                    child: TextField(
-                      controller: _quantidade,
-                      decoration: InputDecoration(
-                        hintText: 'Quantidade',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () => Navigator.pushReplacementNamed(
-                      context,
-                      '/acompanhamento',
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(nassauGold),
-                      foregroundColor: WidgetStateProperty.all(nassauBlack),
-                      padding: WidgetStateProperty.all(
-                        const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                      ),
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      elevation: WidgetStateProperty.all(0),
-                    ),
-                    child: const Text(
-                      'Finalizar compra',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+
+                // --- MOSTRAR PREÇO SELECIONADO GRANDE ---
+                if (_hamburguerSelecionado != null) ...[
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      "Valor Unitário: R\$ ${_hamburguerSelecionado!.preco
+                          .toStringAsFixed(2)}",
+                      style: const TextStyle(color: nassauGold,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
-              ),
+
+                const SizedBox(height: 30),
+                const Text("Adicionais", style: TextStyle(color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+                const SizedBox(height: 10),
+
+                // --- CHECKBOXES ESTILIZADOS ---
+                _buildCustomCheckbox(
+                    "Adicionar Bacon Crocante", adicionarBacon, (val) =>
+                    setState(() => adicionarBacon = val!)),
+                _buildCustomCheckbox(
+                    "Queijo Cheddar Extra", adicionarQueijo, (val) =>
+                    setState(() => adicionarQueijo = val!)),
+                _buildCustomCheckbox(
+                    "Molho Especial da Casa", adicionarMolho, (val) =>
+                    setState(() => adicionarMolho = val!)),
+
+                const SizedBox(height: 30),
+
+                // --- INPUT QUANTIDADE ---
+                TextField(
+                  controller: _quantidadeController,
+                  style: const TextStyle(color: Colors.white),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Quantidade',
+                    labelStyle: const TextStyle(color: Colors.grey),
+                    filled: true,
+                    fillColor: const Color(0xFF1E1E1E),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: nassauGold, width: 2),
+                    ),
+                    prefixIcon: const Icon(
+                        Icons.shopping_bag_outlined, color: nassauGold),
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                // --- BOTÃO FINALIZAR ---
+                _isLoading
+                    ? const Center(
+                    child: CircularProgressIndicator(color: nassauGold))
+                    : ElevatedButton(
+                  onPressed: _finalizarCompra,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: nassauGold,
+                    foregroundColor: nassauBlack,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 5,
+                  ),
+                  child: const Text(
+                    'FINALIZAR PEDIDO',
+                    style: TextStyle(fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
           ),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Container(
-              height: 100.0,
-              padding: EdgeInsets.only(top: 20.0),
-              decoration: BoxDecoration(color: nassauBlack),
-              child: Center(
-                child: Text(
-                  'Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.home, color: nassauGold),
-                    title: Text('Início'),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, '/home');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.add_shopping_cart, color: nassauGold),
-                    title: Text('Fazer pedido'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.article, color: nassauGold),
-                    title: Text('Acompanhamento'),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, '/acompanhamento');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.add_moderator, color: nassauGold),
-                    title: Text(
-                      'Gerenciar Pedidos',
-                      style: TextStyle(color: nassauGold),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, '/gerenciar-pedidos');
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.admin_panel_settings, color: nassauGold),
-                    title: Text(
-                      'Gerenciar Usuários',
-                      style: TextStyle(color: nassauGold),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, '/gerenciar-usuarios');
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.logout, color: nassauGold),
-                  label: const Text('Sair', style: TextStyle(color: nassauGold)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: nassauBlack,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, '/');
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+      drawer: const CustomDrawer(),
+    );
+  }
+
+  Widget _buildCustomCheckbox(String titulo, bool valor,
+      Function(bool?) onChanged) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: valor ? nassauGold : Colors.transparent),
+      ),
+      child: CheckboxListTile(
+        title: Text(titulo,
+            style: TextStyle(color: valor ? Colors.white : Colors.grey[400])),
+        activeColor: nassauGold,
+        checkColor: nassauBlack,
+        value: valor,
+        onChanged: onChanged,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
       ),
     );
   }

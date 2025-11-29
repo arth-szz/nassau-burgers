@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassau_burgers/constantes.dart';
+import 'package:nassau_burgers/service/usuario_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,7 +12,32 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+  final UsuarioService _service = UsuarioService();
   bool _visibilidade = true;
+  bool _isLoading = false;
+
+  Future<void> _fazerLogin() async {
+    setState(() => _isLoading = true);
+
+    try {
+      await _service.login(
+          _emailController.text.trim(),
+          _senhaController.text.trim()
+      );
+
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erro: ${e.toString().replaceAll('Exception: ', '')}"), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -81,23 +107,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_emailController.text == 'teste@email.com' &&
-                          _senhaController.text == '12345') {
-                        print('LOGIN REALIZADO COM SUCESSO');
-                        Navigator.of(context).pushReplacementNamed('/home');
-                      } else {
-                        print('ACESSO NEGADO');
-                      }
-                    },
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                    onPressed: _fazerLogin,
                     child: SizedBox(
                       width: double.infinity,
-                      child: Text(
-                        'Entrar',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: nassauGold),
-                      ),
+                      child: Text('Entrar', textAlign: TextAlign.center, style: TextStyle(color: nassauGold)),
                     ),
                   ),
                 ],
